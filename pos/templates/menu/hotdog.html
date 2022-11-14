@@ -1,0 +1,90 @@
+{% extends 'user_default.html' %}
+
+{% block data %}
+<div class="container">
+  <div class="columns">
+    <div class="column is-3" >
+      {% for c  in category %}
+        <button class="button is-large is-warning" style="width: 300px; margin-bottom: 5px; border: 3px solid orangered;"> {{ c.name }} </button>
+      {% endfor %}
+      
+    </div>
+    <div class="column is-1"></div>
+    <div class="column" style="max-height: 700px; overflow-y: auto;">
+      <div class="container">
+
+        <div class="columns">
+          {% for p in hotdog %}
+            <div class="column is-4">
+              <div class="card">
+            <div class="card-image">
+              <figure class="image" style="height: 250px; width: 270px;">
+                <img src="/static/img/{{ p.img }}" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="card-content">
+              <p class="subtitle is-4 meal-name"> {{ p.name }} </p>
+              <p class="subtitle is-5 meal-price"> {{ p.unit_price }} </p>
+              <input type="hidden" name="code" value=" {{ p.code }}" id="code">
+            </div>
+          </div>
+            </div>
+          {% endfor %}
+        </div>
+          
+      
+      </div>
+    </div>
+  </div>
+</div>
+<div class="hero is-halfheight"></div>
+  
+
+  <script>
+    $('.button').each(function(){
+      $(this).click(function(){
+        if($(this).index() == 0) {
+          window.location.href = "{{ url_for('menu.pasta') }}"
+        }
+        else if($(this).index() == 1) {
+          window.location.href = "{{ url_for('menu.chicken') }}"
+        }
+        else if($(this).index() == 2){
+          window.location.href = "{{ url_for('menu.burger') }}"
+        }
+        else if($(this).index() == 3){
+          window.location.href = "{{ url_for('menu.fries') }}"
+        }
+        else if($(this).index() == 4){
+          window.location.href = "{{ url_for('menu.beverage') }}"
+        }
+        else if($(this).index() == 5){
+          window.location.href = "{{ url_for('menu.dessert') }}"
+        }
+        else if($(this).index() == 6){
+          window.location.href = "{{ url_for('menu.condiment') }}"
+        }
+        else if($(this).index() == 7){
+          window.location.href = "{{ url_for('menu.hotdog') }}"
+        }
+        else if($(this).index() == 8){
+          window.location.href = "{{ url_for('menu.steak') }}"
+        }
+        else if($(this).index() == 9){
+          window.location.href = "{{ url_for('menu.other') }}"
+        }
+      })
+    })
+
+    $(document).ready(function(){
+     $('.card').click(function(){
+        let name = $(this).find('.meal-name').text()
+        let price = $(this).find('.meal-price').text()
+        let code = $(this).find('#code').val()
+
+        window.location.href = "http://localhost:5000/ordering/quantity/"+ name + '/' + price;
+     })
+    })
+  </script>
+
+{% endblock data %}

@@ -1,0 +1,211 @@
+{% extends 'default.html' %}
+
+
+{% block content %}
+
+    <div class="container">
+        <div class="panel">
+            <p class="panel-heading">Product</p>
+            <div class="panel-block">
+                <div class="container">
+                    <div class="columns">
+                        <div class="column">
+                            <input type="text" class = "input" placeholder="search product by id, name..." id="search-product">
+                        </div>
+                        <div class="column">
+                        <div class="column">
+                            <button class="button is-primary is-pulled-right" id="add-product">Add</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-block">
+                <table class="table is-striped" id="product-table">
+                    <thead>
+                            <th> id </th>
+                            <th> code</th>
+                            <th> name </th>
+                            <th> category </th>
+                            <th> unit price </th>
+                            <th> stock</th>
+                            <th>edit</th>
+                            <th>delete</th>
+
+                        </thead>
+                    <tbody id="rows1">
+                        {% for content in prd %}
+                            
+                            <tr> 
+                                <td> {{ content.id }} </td>
+                                <td> {{ content.code }} </td>
+                                <td> {{ content.name }} </td>
+                                <td> {{ content.category_id }} </td>
+                                <td> {{ content.unit_price }} </td>
+                                <!-- <td> {{ content.discount_percentage }} </td> -->
+                                <td></td>
+                                <td id="btn-edit"> <span class="fa fa-pencil">  </span> </td>
+                                <td id="btn=delete"> <span class="fa fa-trash ">  </span> </td>
+                            </tr>
+                        
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+
+        <div class="modal" id="modal1">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Add New Product</p>
+                <button class="delete" aria-label="close" id="close1"></button>
+              </header>
+              <section class="modal-card-body">
+                <div class="container">
+                    <form method="POST" id="submit-form" action=" {{ url_for('app_api.add_product') }} " enctype="multipart/form-data">
+                        <label for="code">Code:</label>
+                        <input type="text" name="code" id="code" class="input" autofocus autocomplete="off">
+                        <label for="name">Name:</label>
+                        <input type="text" name="product-name" id="product-name" class="input">
+                        <label for="name">Price:</label>
+                        <input type="text" name="product-price" id="product-price" class="input">
+                        <!-- <label for="discount">Discount:</label>
+                        <input type="number" name="product-discount" id="product-discount" class="input" value="0"> -->
+                        <label for="image">Image:</label>
+                        <div class="file has-name">
+                            <label class="file-label">
+                              <input class="file-input" type="file" name="file" value="0">
+                              <span class="file-cta">
+                                <span class="file-icon">
+                                  <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                  Choose a file…
+                                </span>
+                              </span>
+                              <span class="file-name">
+                              </span>
+                            </label>
+                          </div>
+                        <br><br>
+                        <label for="category">Category:</label>
+                        <div class="select">
+                            <select name="product-category" required>
+                                {% for item in category %}
+                                <option value=" {{ item.id }} "> {{ item.name }} </option>
+                                {% endfor %}
+                            </select>
+                          </div>
+                          <br><br>
+                    
+                </div>
+            </section>
+              <footer class="modal-card-foot">
+                <button class="button is-success" type="submit">Save</button>
+            </form>
+                <button class="button" id="cancel2">Cancel</button>  
+            </footer>
+            </div>
+          </div>
+
+
+          <!-- #############################33 -->
+
+          <div class="modal" id="modal2">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Edit Product Details</p>
+                <button class="delete" aria-label="close" id="close1"></button>
+              </header>
+              <section class="modal-card-body">
+                <div class="container">
+                    <form method="POST" id="submit-form" action=" {{ url_for('app_api.add_product') }} " enctype="multipart/form-data">
+                        <label for="name">Name:</label>
+                        <input type="text" name="product-name" id="product-name" class="input">
+                        <label for="name">Price:</label>
+                        <input type="text" name="product-price" id="product-price" class="input">
+                        <label for="discount">Discount:</label>
+                        <input type="number" name="product-discount" id="product-discount" class="input" value="0">
+                        <label for="image">Image:</label>
+                        <div class="file has-name">
+                            <label class="file-label">
+                              <input class="file-input" type="file" name="product-img" value="0">
+                              <span class="file-cta">
+                                <span class="file-icon">
+                                  <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                  Choose a file…
+                                </span>
+                              </span>
+                              <span class="file-name">
+                              </span>
+                            </label>
+                          </div>
+                        <br><br>
+                        <label for="category">Category:</label>
+                        <div class="select">
+                            <select name="product-category">
+                                {% for item in category %}
+                                <option value=" {{ item.id }} "> {{ item.name }} </option>
+                                {% endfor %}
+                            </select>
+                          </div>
+                          <br><br>
+                    
+                </div>
+            </section>
+              <footer class="modal-card-foot">
+                <button class="button is-success" type="submit">Save</button>
+            </form>
+                <button class="button" id="cancel2">Cancel</button>  
+            </footer>
+            </div>
+          </div>
+
+    </div>
+
+
+    <script>
+        $(document).ready(function(){
+            $('#add-product').on('click', function(){
+                $('#modal1').show()
+            })
+        });
+
+        $(document).ready(function(){
+            $('#close1').click(function(){
+                $('#modal1').hide();
+            });
+        });
+
+        $(document).ready(function(){
+            $('#cancel2').click(function(){
+                $('#modal1').hide();
+            });
+        })
+
+        $(document).ready(function(){
+            $(' #product-table tr').click(function(){
+                data = ($(this).find('td:eq(0)').text())
+                alert(data)
+            });
+        });
+
+
+        $(document).ready(function(){
+          $('#search-product').on('keyup', function(){
+            let value = $(this).val().toLowerCase()
+            $('#product-table tbody tr').filter(function(){
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            })
+          });
+        })
+
+       
+    </script>
+{% endblock content %}

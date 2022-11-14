@@ -1,0 +1,157 @@
+{% extends 'user_default.html' %}
+
+
+{% block data %}
+    <div class="container">
+        <div class="columns">
+           
+            <div class="column is-4">
+               <div class="container">
+                    <table style="width: 100%; border: 1px solid #999; max-height: 400px; overflow-y: auto;" >
+                        <thead>
+                            <th>Name</th>
+                            <th>Price</th>
+                        </thead>
+                        <tbody id="invoice-table">
+                           
+                        </tbody>
+                    </table>
+               </div>
+               
+            </div>
+            <div class="column">
+                <div class="hero is-warning">
+                    <div class="hero-body">
+                        <p class="title" id="item-name"> {{ name }} </p>
+                        <p class="subtitle is-5" id="item-price">{{ price }} </p>
+
+                    </div>
+                </div>
+                <br>
+                <div class="container">
+                        <p class="title"> Total: P<span class="title" id="total">0</span> </p>
+                        <button id="checkout" class="button is-primary is-pulled-right">Checkout</button>
+                        <button id="add" class="button is-warning is-pulled-right" style="margin-right: 5px;">Add to Cart</button>
+                        <button  id="clear" class="button is-danger is-pulled-right" style="margin-right: 5px;"> Clear </button>
+                    <a href=" {{ url_for('menu.chicken') }} "><button class="button is-info is-pulled-right" style="margin-right: 5px;">Return to Menu</button></a>
+                </div>
+                </div>
+            </div>
+            <div class="column is-1"></div>
+        </div>
+    </div>
+    <div class="hero is-halfheight"></div>
+
+
+    <!-- modal -->
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Checkout Information</p>
+            <button class="delete" aria-label="close" id="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <!-- Content ... -->
+            <form action=" {{ url_for('ordering.invoice') }} ">
+                <p class="p is-size-5" style="background-color: lightpink; height: 40px;"> Deliver to your location</p>
+                <br>
+                <input required class="input" type="text" name="location" id="location" placeholder="Enter complete delivery address">
+                <br>
+                <br>
+                <br>
+                <p class="p is-size-5" style="background-color: lightpink; height: 40px;"> Preffered Delivery Time</p>
+                <br>
+                <input type="radio" name="time" id="now" value="now">
+                <label for="now">NOW</label>
+                <input type="radio" name="time" id="later" value="later" style="margin-left: 30px;">
+                <label for="later">LATER</label>
+            </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" id="proceed" type="submit">Proceed</button>
+            </form>
+            <button class="button" id="cancel">Cancel</button>
+          </footer>
+        </div>
+      </div>
+    <!--  -->
+
+
+    <script>
+        let itemArray = []
+        let priceArray = []
+        let itemName  = $('#item-name').text()
+        let itemPrice = $('#item-price').text()
+        let itemCode = $('')
+
+        let data = {
+            name: itemName,
+            price: itemPrice
+        }
+
+
+        $('#add').click(function(){
+            itemArray.push(itemName)
+            priceArray.push(itemPrice)
+
+            let allItems = JSON.parse(localStorage.getItem('item')) || [];
+            // let AllPrices = JSON.parse(localStorage.getItem('price')) || [];
+
+            allItems.push(data)
+            // AllPrices.push(priceArray)
+
+            localStorage.setItem('item', JSON.stringify(allItems))
+
+            location.reload(true);
+            
+        })
+
+        $('#checkout').click(function(){
+            let items = localStorage.getItem('item')
+            console.log(items);
+            
+        })
+
+        $('#clear').click(function(){
+            localStorage.clear()
+            location.reload(true);
+        })
+
+        let fetchedData = JSON.parse(localStorage.getItem('item'));
+
+        $(document).ready(function(){
+            $.each(fetchedData, function(e){
+                $('#invoice-table').append(`<tr> <td> ${fetchedData[e].name} </td><td class='price'> ${fetchedData[e].price} </td></tr>`)
+            })
+        
+        })
+
+        let sum = 0
+
+       $(document).ready(function(){
+        $('.price').each(function(){
+            let num = parseFloat($(this).text());
+            
+            $('#total').text(sum += num)
+        })
+       })
+
+
+       // checkout the order
+       $('#checkout').click(function(){
+        $('.modal').show()
+       })
+
+       $('#cancel').click(function(){
+        $('.modal').hide()
+       })
+
+       $('#close').on('click', function(){
+        $('.modal').hide()
+       })
+    </script>
+
+
+
+
+{% endblock data %}

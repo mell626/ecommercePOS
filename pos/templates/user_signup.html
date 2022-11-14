@@ -1,0 +1,56 @@
+{% extends 'user_default.html' %}
+
+{% block data %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="notification is-warning">
+                 <span class="fa fa-warning"></span> {{ msg }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<br><br>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-1"></div>
+            <div class="column is-4">
+                <fieldset>
+                    <legend class="title">Sign in with your email</legend>
+                    <form method="POST" action=" {{ url_for('ordering.login') }} ">
+                        <label for="email">Email</label>
+                                <input type="email" name="email" id="email" class="input" autocomplete="off">
+                                <br><br>
+                                <label for="password"> Password</label>
+                                <input type="password" name="password" id="password" class="input">
+                                <br><br>
+                                <input type="submit" value="Sign in" class="button is-warning">
+                    </form>
+                    <section class="hero is-halfheight"></section>
+                </fieldset>
+            </div>
+            <div class="column is-2">
+            </div>
+            <div class="column is-4">
+                <fieldset>
+                    <legend class="title">Register Account</legend>
+                    <form method="POST" action=" {{ url_for('ordering.signup') }} ">
+                        <label for="email">Email</label>
+                        <input type="email" name="new-email" id="new-email" class="input">
+                        <br>
+                        <label for="password">Password</label>
+                        <input type="password" name="new-password" id="new-password" class="input">
+                        <br>
+                        <label for="confirm">Confirm Password</label>
+                        <input type="password" name="confirm" id="confirm" class="input">
+                        <br><br>
+                        <input type="submit" value="Register" class="button is-warning">
+                    </form>
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+    
+{% endblock data %}
+

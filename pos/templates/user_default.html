@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href=" {{ url_for('static', filename='style.css') }} ">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src=" {{ url_for('static', filename = 'html2canvas.min.js') }} "></script>
+    
+    <title>Online POS for Food and Beverage</title>
+</head>
+<body>
+    <div class="navbar is-danger">
+        <div class="navbar-item"><a href=" {{  url_for('default')}} ">Home</a></div>
+        {% if guest %}
+        <div class="navbar-item navbar-end" title=" Click to logout"><a href=" {{ url_for('app_api.logout') }} "> {{ guest }} </a> </div>
+        {% else %}
+        <div class="navbar-item navbar-end"><a href=" {{ url_for('ordering.index') }} ">Sign in</a></div>
+        {% endif %}
+      </div>
+
+
+    {% block data %}
+    {% endblock %}
+
+    <footer class="footer has-text-white" style="background-color: black">
+        <div class="content has-text-centered">
+          <p>
+            <strong>Online POS System for Food and Beverage</strong> by BSIT 4OC in compliace for academic requirements for first semester of AY 2022-2023.
+            <p>Cavite State University Carmona Campus </p>
+            <p>Stay Connected </p>
+            <p style="font-size: 36px;"><span class="fa fa-facebook"></span> <span class="fa fa-github"></span> <span class="fa fa-twitter"></span> <span class="fa fa-instagram"></span> </p>
+            <p class="p">Login Staff or Administrator, click <a href=" {{ url_for('app_api.login') }} ">Here</a> </p>
+            <p>For inquiries, contact Ms. Rachel Delos Santos</p>
+          </p>
+        </div>
+      </footer>
+</body>
+</html>

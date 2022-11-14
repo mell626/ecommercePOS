@@ -1,0 +1,278 @@
+{% extends 'default.html' %}
+
+
+
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-primary">
+                {% for msg in messages %}
+                    {{ msg }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <div class="panel">
+            <div class="panel-heading">POS Terminal</div>
+            <div class="panel-block">   
+               <div class="container">
+                <div class="columns">
+                    <div class="column is-5">
+                        <form method="POST">
+                            <label for="code">code:</label> 
+                            <input type="text" class="input" name="pos-code" id="pos-code" autofocus>
+                            <input type="submit" value="Submit" style="visibility: hidden;" id="submit">
+                        </form> 
+                    </div>
+                    <!-- <div class="column is-3">
+                        <label for="qty">qty:</label> <input  class="input" type="number" name="qty" id="qty" value="1">
+                    </div> -->
+                </div>
+               </div>
+                
+            </div>
+            <div class="panel-block">                
+                <div class="container" style="height: 400px;">
+                    <div class="columns">
+                        <div class="column">
+                            <table class="table" id="pos-items">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                </thead>
+                                <tbody id="transaction-items">
+        
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                
+                </div>
+            </div>
+            <div class="panel-block">
+                <div class="container">
+                    <p class="p is-size-4 is-pulled-right"> Total: P<span class="p is-size-3" id="total">0</span>   </p>
+                </div>
+            </div>
+            <div class="panel-block">
+                <div class="container">
+
+                    <button class="button is-info is-pulled-right pay is-danger" id="void">Void</button>
+                    <button class="button is-pulled-right pay is-warning" id="reset">Reset</button>
+                    <button class="button is-info is-pulled-right pay" id="payment">Payment</button>  
+                </div>
+            </div>            
+        </div>
+
+        <div class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+              <header class="modal-card-head">
+                <p class="modal-card-title">Payment</p>
+                <button class="delete del" aria-label="close"></button>
+              </header>
+              <section class="modal-card-body">
+                <p class="p is-size-4">Total Amount: <span id="total-amount">0</span> </p>
+                <br>
+                <form action="#" method="post">
+                <input type="number" class="input" name="proceed-payment" id="proceed-payment" autofocus>
+                <div class="container">
+                    <!-- calculator -->
+                    <div class="columns">
+                        <div class="column">7</div><div class="column">8</div><div class="column">9</div>
+                    </div>
+                    <div class="columns">
+                        <div class="column">4</div><div class="column">5</div><div class="column">6</div>
+                    </div>
+                    <div class="columns">
+                        <div class="column"></div><div class="column">0</div><div class="column">.</div>
+                    </div>
+                    <!-- end calculator -->
+                </div>
+              </section>
+              <footer class="modal-card-foot">
+                <button class="button is-success" type="submit" id="proceed-payment">Check out</button>
+            </form>
+                <button class="button" id="cancel-payment">Cancel</button>
+              </footer>
+            </div>
+          </div>
+
+
+
+
+        <script>
+            let total = 0;
+            let sales = 0;
+           
+            let product_list = [ {% for p in products %} '{{ p.product_code }}', {% endfor %} ]
+
+            $('#pos-code').autocomplete({
+                source: product_list
+                })
+                
+            
+            
+            let urlItem = window.location.search
+            //console.log(urlItem);
+
+            parameter = new URLSearchParams(urlItem)
+
+            const detail = parameter.get('details')
+            const price = parameter.get('price')
+
+            let transactionTable = document.getElementById('transaction-items')[0]
+            sessionStorage.setItem('list', transactionTable)
+            
+            sessionStorage.getItem('list')
+
+            // console.log('the result is: ' + detail)
+            // console.log('the unit price is: ' + price)
+
+            $('#pos-code').on('keypress', function(e){
+                let keys = (e.keyCode? e.keyCode : e.which )
+
+                if(keys == 13) {
+                    let qty = prompt('Enter Quantity: ')
+
+                    //add the name to the table                   
+                        $('#transaction-items').append('<tr>' + '<td>' + detail + '</td>' + '<td>' + qty + '</td>' + '<td>' + price + '</td> </tr>')
+
+                        
+                    
+                }
+            })
+
+            $('#submit').submit(function(e){
+                e.preventDefault();
+            })
+
+            //add to sales on button click
+           $(' .items').on('click', function(){
+            let defaultQty = 1
+
+            let qty = prompt('Enter Quantity: ', defaultQty)
+            let price = $(this).val()
+
+            const subtotal = parseFloat(price * qty);
+
+            let code = $(this)[0].nodeName;
+            
+            if(qty !== null){
+                $(' #transaction-items').append('<tr><td>' + $(this).text() + '</td>' + '<td>' + qty + '</td>' + '<td>' + subtotal + '</td></tr>');
+                sales = total += subtotal
+                $('#total').text(parseFloat(sales))  
+                }
+           });
+
+
+           // modal toggle
+           $('#payment').click(function(){
+                $('.modal').show()
+           });
+
+           $('.del').click(function(){
+                $('.modal').hide()
+                $('total-amount').text('')
+           })
+           // tansaction method //
+
+           // //
+
+          //show modal for the payment
+           $(document).keydown(function(e){
+                let keycode = (e.keyCode? e.keyCode : e.which)
+
+                if(keycode == 187) {
+                    let totalAmount = $('#total').text()
+                    $('#total-amount').text(totalAmount)
+                    $('.modal').show()
+                }
+
+                if(keycode == 27) {
+                    $('.modal').hide()
+                    $('#total-amount').text('')
+                }
+
+                if(keycode == 219) {
+                    let confirm_cancel = confirm('Please Confirm Reset')
+
+                    if(confirm_cancel == true){
+                        sales = 0;
+                        $('#total').text(sales)
+                        $('#transaction-items tr').remove()
+                    }
+                }
+           });
+
+           $('#reset').click(function(){
+            let res = confirm('Please Confirm Reset')
+            if(res == true) {
+                sales = 0;
+                $('#total').text(sales)
+                $('#transaction-items tr').remove()
+            }
+
+           });
+        
+
+        </script>
+
+
+    <!-- <script>
+
+        let price = 0;
+         $(document).on('keypress', '#code', function(e){
+             //fetch jso post data   
+            addSales = async() => {
+                await fetch('http://localhost:5000/api/add-sales', {
+                    method: 'POST',
+                    headers: {'Content-type': 'application/json'},
+                    body: JSON.stringify({
+                        code: 'product_number02',
+                        qty: '40',
+                        subtotal: '34000'
+                    })
+                    
+                }).then((resp) => { return resp.json() })
+                .then((json) => { console.log(json.data) })
+                .catch((e)=> console.log(e));
+            }
+            
+            
+            if(e.which == 13) {
+                    let val = $(this).val();
+                    let prompt = confirm('Confirm Entry: ' + val)
+                    if(prompt == true) {
+                        alert('Added to sales')
+
+                        addSales()
+
+                        $('#code').val('')
+                        $('#qty').val('1')
+                        $("#item").append('<tr><td>' + val + '</td>' + '<td>' + $("#qty").val() + '</td> </tr>')
+                        
+                    }
+                    else{
+                        $('#code').val('')
+                        $('#qty').val('1')
+                    }
+                }
+            });
+        // $(function(){
+        //     var availablePrd = [ {% for data in products %} "{{ data.product_code }} - {{ data.name }}", {% endfor %} ]
+        
+        //     $('#code').autocomplete({
+        //         source: availablePrd
+        //     })
+        // });
+    </script> -->
+
+
+{% endblock content %}

@@ -1,0 +1,109 @@
+{% extends 'default.html' %}
+
+
+{% block content  %}
+    <div class="container">
+        <div class="panel">
+            <div class="panel-heading">Inventory</div>
+            <div class="panel-block">
+                <div class="container">
+                    <button class="button is-pulled-right is-primary" id="replenish">Replenish </button>                    
+                </div>
+            </div>
+            <div class="panel-block">
+                <div class="container" style="height: 500px;">
+                    <table class="table" id="replenish">
+                        <thead>
+                            <th>id</th>
+                            <th>code</th>
+                            <th>category</th>
+                            <th>name</th>
+                            <th>quantity</th>
+                            <th>date replenished</th>
+                            <th>status</th>
+                        </thead>   
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Replinish Stock</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="container">
+                <form method="POST">
+                    <label for="product-name">Product Name</label>
+                    <div class="select">
+                        <select name="product-name" id="product-name" required>
+                            {% for p in products %}
+                                <option value=" {{ p.id }} "> {{ p.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <br><br>
+                    <label for="supplier">Supplier Name</label>
+                    <div class="select">
+                        <select name="supplier" id="supplier" required>
+                            {% for s in supplier %}
+                                <option value=" {{ s.id }} "> {{ s.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <br><br>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" name="quantity" id="quantity" required class="input">
+                    <label for="unit-price">Unit Price</label>
+                    <input type="number" class="input" name="unit-price" id="unit-price" required>                    
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" id="save" type="submit">Save</button>
+        </form>
+            <button class="button" id="cancel">Cancel</button>
+          </footer>
+        </div>
+      </div>
+
+
+    <script>
+        $('#replenish').click(function(){
+            $('.modal').show()
+        });
+
+        $('#cancel').click(function(){
+            $('.modal').hide()
+        });
+
+        $('.delete').click(function(){
+            $('.modal').hide()
+        });
+
+        $(document).on('keydown', function(e){
+            let keys = (e.keyCode? e.keyCode : e.which)
+
+            if(keys == 187) {
+                $('.modal').show()
+            }
+        });
+
+        $(document).on('keydown', function(e){
+            let key = (e.keyCode? e.keyCode : e.which)
+            if(key == 27) {
+                $('.modal').hide()
+            }
+        })
+
+    </script>
+
+
+
+
+{% endblock  %}

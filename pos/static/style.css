@@ -1,0 +1,27 @@
+#product-table >th,td {
+    padding: 5px;
+    width: 300px;
+}
+
+#rows1 > tr:hover {
+    background-color: aquamarine;
+    cursor: pointer;
+}
+
+#btn-product {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.pay {
+    margin-right: 10px;
+}
+
+#pos-items > th {
+    height: 40px;
+    width: 200px;
+}
+
+#replenish > th > td {
+    width: 200px;
+}

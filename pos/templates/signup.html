@@ -1,0 +1,33 @@
+{% extends 'default.html' %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="columns">
+            <div class="column"></div>
+            <div class="column is-4" >
+                <form method="POST">
+                    <p class="p is-size-3">Signup New Account</p>
+                    <br>
+                    {{ form.csrf_token() }}
+
+                    {{ form.username.label }}  {{ form.username(class='input') }}
+                    <br>
+                    {{ form.password.label }}  {{ form.password(class = 'input') }}
+                    <br>
+                    {{ form.confirm.label }}  {{ form.confirm(class='input') }}
+                    {% if form.confirm.errors %}
+                        <ul style="color: red;">
+                            {% for error in form.confirm.errors %}
+                                <li> {{ error }} </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <br><br>
+                    <input type="submit" value="Submit" class="button is-primary is-pulled-right">
+                </form>
+            </div>
+            <div class="column"></div>
+        </div>
+    </div>
+{% endblock content %}

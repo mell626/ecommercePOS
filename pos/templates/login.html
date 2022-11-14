@@ -1,0 +1,43 @@
+{% extends 'default.html' %}
+
+
+{% block content %}
+<br><br><br>
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <section class="hero is-primary is-fullheight">
+                    <section class="hero-body">
+                        <p class="subtitle">
+                            POS Online Staff
+                        </p>
+                    </section>
+                </section>
+            </div>
+            <div class="column is-4">
+                <p class="p is-size-3">Login Staff</p>
+                <br>
+                <form method="POST">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="notification is-warning">
+                        {% for msg in messages %}
+                        {{ msg }}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endwith %}
+
+                {{ login_form.csrf_token() }}
+                {{ login_form.username.label }}  {{ login_form.username(class='input') }}
+                <br>
+                {{ login_form.password.label }}  {{ login_form.password(class='input') }}
+                <br><br>
+                <a href=" {{ url_for('app_api.signup') }} ">Signup </a>
+                <input type="submit" value="Login" class="button is-primary is-pulled-right">
+                </form>
+            </div>
+            <!-- <div class="column"></div> -->
+        </div>
+    </div>
+{% endblock content %}

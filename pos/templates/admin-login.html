@@ -1,0 +1,32 @@
+{% extends 'default.html' %}
+
+
+
+{% block content %}
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <section class="hero is-info is-fullheight">
+                    <section class="hero-body">
+                        <p class="subtitle">Online POS Admin</p>
+                    </section>
+                </section>
+            </div>
+            <div class="column is-5">
+                <br><br><br><br>
+                <div class="container">
+                    <p class="title">Login Administrator</p>
+                <form action="#" method="POST">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="input" autocomplete="off" autofocus>
+                    <br><br>
+                    <label for="passwrod">Password</label>
+                    <input type="password" name="password" id="passsword" class="input">
+                    <br><br>
+                    <input type="submit" value="Login" class="button is-info is-pulled-right">
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

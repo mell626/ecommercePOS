@@ -1,0 +1,29 @@
+{% extends 'user_default.html' %}
+
+
+{% block data %}
+    <br><br>
+    <div class="container">
+        <div class="columns">
+            <div class="column is-4">
+                <div class="container">
+                    <button class="input is-warning"><b> <span class="fa fa-shopping-cart"> </span>   Deliver to your location </b></button>
+                    <br><br>
+                    <input type="text" name="location" id="location" class="input" placeholder="Enter your delivery address">
+
+                    <br><br><br>
+                    <div class="columns">
+                        <div class="column">
+                           <b> <span class="fa fa-clock-o"></span> Expected Delivery Time </b> 
+                        </div>
+                    </div>
+                    <button class="button is-warning" style="width: 210px;">NOW</button> <button class="button" style="width: 210px;">LATER</button>
+                </div>
+                order details here
+            </div>
+            <div class="column">
+            </div>
+        </div>
+    </div>
+    <div class="hero is-fullheight"></div>
+{% endblock data %}

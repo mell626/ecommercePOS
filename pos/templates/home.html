@@ -1,0 +1,44 @@
+{% extends 'default.html' %}
+
+{% block content %}
+    <div class="container">
+        <br><br><br><br>
+        <div class="columns">
+            <div class="column">
+                <a href=" {{ url_for('app_api.pos') }} ">
+                    <div class="card" style="background-color: lightgoldenrodyellow;">
+                        <div class="card-content">
+                          <div class="content">
+                           <b>POS</b>
+                          </div>
+                        </div>
+                      </div>
+                </a>
+                
+            </div>
+            <div class="column">
+                <a href=" {{ url_for('app_api.sales') }}">
+                    <div class="card" style="background-color: lightgreen;">
+                        <div class="card-content">
+                          <div class="content">
+                            <b>Sales</b>
+                          </div>
+                        </div>
+                      </div>
+                </a>
+                
+            </div>
+            <div class="column">
+                <a href=" {{ url_for('app_api.product') }} ">
+                    <div class="card" style="background-color: skyblue;">
+                        <div class="card-content">
+                          <div class="content">
+                            <b> Products </b>
+                          </div>
+                        </div>
+                      </div>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

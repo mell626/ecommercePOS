@@ -1,0 +1,56 @@
+{% extends 'user_default.html' %}
+
+
+{% block data %}
+
+
+
+<div class="container">
+    <figure class="image is-3by1">
+        <a href=" {{ url_for('menu.burger') }} "> 
+          <img src=" {{ url_for('static', filename= 'img/best_seller1.png') }}">   
+        </a>
+      </figure>
+      <br>
+      <a href=" {{ url_for('menu.chicken') }} ">
+        <button class="button is-pulled-right is-large is-rounded is-warning" style="border: 3px solid orangered;">New Order</button>
+      
+      </a>
+      <br><br><br><br>
+      <div class="columns">
+        <div class="column">
+            <img src=" {{ url_for('static', filename='img/friedChicken.png' ) }} " alt="">
+        </div>
+        <div class="column">
+            <img src=" {{ url_for('static', filename = 'img/burgerWithFries.png') }} " alt="">
+        </div>
+        <div class="column">
+            <img src=" {{ url_for('static', filename = 'img/beefSteak.png') }} " alt="">
+        </div>
+    </div>
+    <br><br><br>
+    <div class="columns">
+        
+          <!-- <div class="column is-6">
+            <a href=" {{ url_for('ordering.menu') }} ">
+            <section class="hero is-warning" style="border: 3px solid orangered;">
+                <div class="hero-body">
+                  <p class="title">
+                    See Full List of Menu
+                  </p>
+                  <p class="subtitle">
+                    
+                  </p>
+                </div>
+              </section>
+        </div>
+        </a> -->
+        <div class="column">
+        </div>
+    </div>
+</div>
+<br><br>
+
+
+
+{% endblock data %}

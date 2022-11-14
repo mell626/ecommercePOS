@@ -1,0 +1,83 @@
+{% extends 'user_default.html' %}
+
+
+
+{% block data  %}
+    <div class="container" style="text-align: center;" id="receipt">
+                <p class="subtitle">Cloud Based POS for Food and Beverage</p>
+                <p class="p">Order Invoice</p>
+                <br><br>
+                <table style="width: 50%; border: 1px solid #999; margin: 0 auto;">
+                    <thead style="background-color: lightpink;">
+                        <th>Name</th>
+                        <th>Price</th>
+                    </thead>
+                    <tbody id="invoice-table">
+        
+                    </tbody>
+                </table>    
+                 &nbsp; &nbsp; &nbsp;<p class="subtitle">Total amount: P<span class="subtitle" id="total">0</span></p>
+                <div class="hero">
+                    <p class="p" id="customer">Customer: <span id="customer"> {{ guest }} </span> </p>
+                    <p class="p">Order Date: <span id="date">null</span> </p>
+                    <div class="hero-body"></div>
+                </div>
+    </div>
+
+    <div class="container">
+        <p class="p">Thank you for ordering with us. We hope to serve you again.</p>
+        <button class="button is-pulled-right is-warning" id="home">Return to Home</button>
+        <button class="button is-pulled-right" style="margin-right: 10px;" id="download">Download Receipt</button>
+    </div>
+    <br><br>  <br>
+
+    <script>
+        let fetchedData = JSON.parse(localStorage.getItem('item'))
+
+        $(document).ready(function(){
+            $.each(fetchedData, function(e){
+                $('#invoice-table').append(`<tr> <td> ${fetchedData[e].name} </td><td class='price'> ${fetchedData[e].price} </td></tr>`)
+            })
+        })
+
+       $(document).ready(function(){
+        $('#download').click(function(){
+            const screenshot = document.getElementById('receipt')
+
+            html2canvas(screenshot).then((canvas) => {
+                const base64Image = canvas.toDataURL('image/png', 0.9)
+                var anchor = document.createElement('a');
+                anchor.setAttribute('href', base64Image);
+                anchor.setAttribute('download', 'receipt.png');
+                anchor.click()
+                anchor.remove()
+            }).catch((err) => {
+                
+            });
+        })
+       })
+
+       let sum = 0
+
+       $(document).ready(function(){
+        $('.price').each(function(){
+            let num = parseFloat($(this).text());
+            
+            $('#total').text(sum += num)
+        })
+       })
+
+       $('#home').click(function(){
+        localStorage.clear()
+        window.location.href = '{{ url_for("default") }}'
+       })
+
+       $(document).ready(function(){
+        $('#date').text(new Date($.now()))        
+       })
+
+
+
+
+    </script>
+{% endblock data %}
