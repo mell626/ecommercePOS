@@ -10,7 +10,7 @@ from .forms import *
 
 api = Blueprint('app_api', __name__, url_prefix='/api', template_folder='templates')
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', }
 
 def allowed_file(filename):
     return '.' in filename and \
