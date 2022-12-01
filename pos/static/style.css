@@ -31,8 +31,11 @@
     cursor: pointer;
 }
 
-.card-content:hover {
+.card-content {
     background-color: lightsalmon;
+}
+
+.card-content > p {
     color: white;
 }
 
