@@ -11,10 +11,11 @@
     {% endif %}
 {% endwith %}
 <br><br>
-    <div class="container">
+    <div class="container" style="background-color: white;">
         <div class="columns">
             <div class="column is-1"></div>
             <div class="column is-4">
+                <br>
                 <fieldset>
                     <legend class="title">Sign in with your email</legend>
                     <form method="POST" action=" {{ url_for('ordering.login') }} ">
@@ -29,9 +30,10 @@
                     <section class="hero is-halfheight"></section>
                 </fieldset>
             </div>
-            <div class="column is-2">
-            </div>
+            <div class="column is-1"></div>
+            <div class="column is-1" style="border-left: 5px solid lightcoral;"></div>
             <div class="column is-4">
+                <br>
                 <fieldset>
                     <legend class="title">Register Account</legend>
                     <form method="POST" action=" {{ url_for('ordering.signup') }} ">

@@ -14,6 +14,13 @@
     <script src=" {{ url_for('static', filename = 'html2canvas.min.js') }} "></script>
     
     <title>Online POS for Food and Beverage</title>
+
+    <style>
+      html {
+        background-image: url('{{ url_for("static", filename = "img/bg.png") }}');
+      }
+    </style>
+
 </head>
 <body>
     <div class="navbar is-danger">
@@ -26,9 +33,11 @@
       </div>
 
 
-    {% block data %}
-    {% endblock %}
-
+    <div class="container">
+      {% block data %}
+      {% endblock %}
+    </div>
+<br><br><br>
     <footer class="footer has-text-white" style="background-color: black">
         <div class="content has-text-centered">
           <p>
