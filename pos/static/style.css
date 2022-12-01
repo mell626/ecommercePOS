@@ -26,3 +26,13 @@
 #replenish > th > td {
     width: 200px;
 }
+
+.card {
+    cursor: pointer;
+}
+
+.card-content:hover {
+    background-color: lightsalmon;
+    color: white;
+}
+

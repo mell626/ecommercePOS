@@ -143,13 +143,6 @@ class Sales(db.Model):
 
 
 
-
-
-
-
-
-
-
 # 
 
 
