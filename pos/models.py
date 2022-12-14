@@ -11,24 +11,42 @@ order = db.Table('order',
 
 )
 
+#the user adds item into the order table. 
+#each item is being updated into the association table
+#the sales gets the most repeatedly ordered items on the association table regardless of the user
+
+
 
 class Customer(db.Model):
     id  = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(255), unique = True)
     password = db.Column(db.String(255))
+    last_name = db.Column(db.String(100))
+    first_name = db.Column(db.String(100))
+    middle_name = db.Column(db.String(100), default = 'n/a')
+    contact_number = db.Column(db.String(20))
+    address = db.Column(db.Text)
     status = db.Column(db.Integer, default = 0)
     orders = db.relationship('Product', secondary = order, backref = 'orders')
     invoices = db.relationship('Invoice', backref = 'invoices')
     date_created = db.Column(db.DateTime, default = datetime.now())
 
-    def __init__(self, email, password):
+
+    def __init__(self, email, password, last_name, first_name, middle_name, contact_number, address):
         self.email = email
         self.password = generate_password_hash(password)
-
-
+        self.last_name = last_name
+        self.first_name = first_name
+        self.middle_name = middle_name
+        self.contact_number = contact_number
+        self.address = address
 
     def set_password(self, pwd):
         self.password = generate_password_hash(pwd)
+
+    
+    def __repr__(self):
+        return f'{self.email}'
 
 
 
@@ -111,7 +129,6 @@ class Invoice(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
     total_amount = db.Column(db.Float)
     amount_tendered = db.Column(db.Float)
-    user_id = db.Column(db.Integer) # foreign key
     sales = db.relationship('Sales', backref='sales')
     date_recorded = db.Column(db.DateTime, default = datetime.now())
 
@@ -140,6 +157,18 @@ class Sales(db.Model):
         self.subtotal = subtotal
 
 
+
+
+class Checkout(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    email = db.Column(db.String(200))
+    product = db.Column(db.String(200))
+    invoice_id = db.Column(db.Integer)
+    date_created = db.Column(db.DateTime, default = datetime.now())
+
+    def __init__(self, email, product):
+        self.email = email
+        self.product = product
 
 
 

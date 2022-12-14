@@ -1,7 +1,19 @@
 {% extends 'user_default.html' %}
 
 {% block data %}
-<div class="grid-container" style="background-color: white;">
+
+<!-- <style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
+  .card {
+    margin: 5px;
+  }
+</style> -->
+
+<div class="container" style="background-color: white;">
   <div class="columns">
     <div class="column is-3" >
       {% for c  in category %}
@@ -11,11 +23,11 @@
     </div>
     <div class="column is-1"></div>
     <div class="column" style="max-height: 700px; overflow-y: auto;">
-      <div class="container">
+      <div class="grid-container">
 
-        <div class="columns">
+        <!-- <div class="columns"> -->
           {% for p in pasta %}
-            <div class="column is-4">
+            <!-- <div class="column is-4"> -->
               <br>
               <div class="card">
             <div class="card-image">
@@ -30,9 +42,9 @@
               <input type="hidden" name="code" value=" {{ p.code }}" id="code">
             </div>
           </div>
-            </div>
+            <!-- </div> -->
           {% endfor %}
-        </div>
+        <!-- </div> -->
           
       
       </div>

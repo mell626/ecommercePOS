@@ -1,6 +1,22 @@
 {% extends 'user_default.html' %}
 
+
+
+
 {% block data %}
+
+<!-- <style>
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
+  .card {
+    margin: 5px;
+  }
+</style> -->
+
+
 <div class="container" style="background-color: white;">
   <div class="columns">
     <div class="column is-3" >
@@ -11,26 +27,29 @@
     </div>
     <div class="column is-1"></div>
     <div class="column" style="max-height: 700px; overflow-y: auto;">
-      <div class="container">
-
-        <div class="columns">
+      <div class="grid-container">
+        <!-- <div class="columns"> -->
           {% for p in chicken %}
-            <div class="column is-4">
+
+            <!-- <div class="column is-4"> -->
+             
               <div class="card">
             <div class="card-image">
-              <figure class="image" style="height: 250px; width: 270px;">
+              <figure class="image is-1">
                 <img src="\static\img\{{ p.img }}" alt="Placeholder image">
               </figure>
             </div>
             <div class="card-content">
-              <p class="subtitle is-4 meal-name"> {{ p.name }} </p>
+              <p class="subtitle is-5 meal-name"> {{ p.name }} </p>
               <p class="subtitle is-5 meal-price"> {{ p.unit_price }} </p>
               <input type="hidden" name="code" value=" {{ p.code }}" id="code">
             </div>
           </div>
-            </div>
+          
+             
+            <!-- </div> -->
           {% endfor %}
-        </div>
+        <!-- </div> -->
           
       
       </div>

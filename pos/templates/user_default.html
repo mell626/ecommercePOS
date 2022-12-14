@@ -24,7 +24,12 @@
 </head>
 <body>
     <div class="navbar is-danger">
-        <div class="navbar-item"><a href=" {{  url_for('default')}} ">Home</a></div>
+      <div class="navbar-brand">
+        <a href=" {{  url_for('default')}} " class="navbar-item">
+          <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="logo" height="120" width="40" >
+        </a>
+      </div>
+        
         {% if guest %}
         <div class="navbar-item navbar-end" title=" Click to logout"><a href=" {{ url_for('app_api.logout') }} "> {{ guest }} </a> </div>
         {% else %}

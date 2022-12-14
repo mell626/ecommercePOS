@@ -2,12 +2,12 @@
 
 
 {% block data %}
-    <div class="container">
+    <div class="container" style="background-color: white; height: 700px;">
         <div class="columns">
            
             <div class="column is-4">
                <div class="container">
-                    <table style="width: 100%; border: 1px solid #999; max-height: 400px; overflow-y: auto;" >
+                    <table id="item-list"  style="width: 100%; border: 1px solid #999; max-height: 400px; overflow-y: auto;" >
                         <thead>
                             <th>Name</th>
                             <th>Price</th>
@@ -24,13 +24,12 @@
                     <div class="hero-body">
                         <p class="title" id="item-name"> {{ name }} </p>
                         <p class="subtitle is-5" id="item-price">{{ price }} </p>
-
                     </div>
                 </div>
                 <br>
                 <div class="container">
-                        <p class="title"> Total: P<span class="title" id="total">0</span> </p>
-                        <button id="checkout" class="button is-primary is-pulled-right">Checkout</button>
+                        <p class="title"> Total: <span class="title" id="total">0</span> </p>
+                            <button id="checkout" class="button is-primary is-pulled-right" style="margin-right: 5px;">Checkout</button>
                         <button id="add" class="button is-warning is-pulled-right" style="margin-right: 5px;">Add to Cart</button>
                         <button  id="clear" class="button is-danger is-pulled-right" style="margin-right: 5px;"> Clear </button>
                     <a href=" {{ url_for('menu.chicken') }} "><button class="button is-info is-pulled-right" style="margin-right: 5px;">Return to Menu</button></a>
@@ -58,7 +57,8 @@
                 <br>
                 <input required class="input" type="text" name="location" id="location" placeholder="Enter complete delivery address">
                 <br>
-                <br>
+                <label for="address">Your Delivery Address:</label>
+                <input type="checkbox" name="address" id="address">
                 <br>
                 <p class="p is-size-5" style="background-color: lightpink; height: 40px;"> Preffered Delivery Time</p>
                 <br>
@@ -72,10 +72,11 @@
             </form>
             <button class="button" id="cancel">Cancel</button>
           </footer>
+
         </div>
       </div>
-    <!--  -->
 
+    
 
     <script>
         let itemArray = []
@@ -89,28 +90,66 @@
             price: itemPrice
         }
 
-
-        $('#add').click(function(){
+        $('#add').click(function(e){
             itemArray.push(itemName)
             priceArray.push(itemPrice)
 
             let allItems = JSON.parse(localStorage.getItem('item')) || [];
             // let AllPrices = JSON.parse(localStorage.getItem('price')) || [];
-
             allItems.push(data)
             // AllPrices.push(priceArray)
-
             localStorage.setItem('item', JSON.stringify(allItems))
-
             location.reload(true);
+
+
             
+            // $.ajax({
+            //     type: 'POST',
+            //     url: '',
+            //     contentType: 'application/json',
+            //     dataType: 'json',
+            //     data: '{{name}}',
+            //     success: function(appendItem){
+            //         console.log(appendItem);
+            //     },
+            //     error: function(e) {
+            //         console.log(e);
+            //     }
+            // })
+
+            // e.preventDefault();
         })
+
+
+
 
         $('#checkout').click(function(){
             let items = localStorage.getItem('item')
-            console.log(items);
-            
+            // current working code
+            let dataArr = []
+            let dataArray = []
+            $('#item-list #invoice-table tr').each(function(){
+                let rowOnTable = $(this).find('td:eq(0)');
+                if(rowOnTable.length > 0) {
+                    rowOnTable.each(function(){
+                        dataArray.push($(this).text())
+                    })
+                }
+            })
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '{{ url_for("ordering.checkout") }}',
+                data: JSON.stringify(dataArray)
+            }).done(function(e){
+                console.log(e);
+            }).fail(function(err){
+                console.log(err);
+            })
         })
+
+
 
         $('#clear').click(function(){
             localStorage.clear()
@@ -130,16 +169,20 @@
 
        $(document).ready(function(){
         $('.price').each(function(){
-            let num = parseFloat($(this).text());
-            
+            let num = parseFloat($(this).text());            
             $('#total').text(sum += num)
+            console.log(num);
+            
         })
        })
 
-
        // checkout the order
        $('#checkout').click(function(){
-        $('.modal').show()
+        
+        if(localStorage.length === 0) {
+                alert('No items to checkout!')
+            }
+         else { $('.modal').show() }
        })
 
        $('#cancel').click(function(){
@@ -150,8 +193,6 @@
         $('.modal').hide()
        })
     </script>
-
-
 
 
 {% endblock data %}
