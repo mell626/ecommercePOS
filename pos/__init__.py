@@ -44,5 +44,7 @@ def create_app():
     def init_db():
         db.create_all()
 
+        
+
 
     return app

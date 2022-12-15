@@ -14,10 +14,22 @@
     <script src=" {{ url_for('static', filename = 'html2canvas.min.js') }} "></script>
     
     <title>Online POS for Food and Beverage</title>
+
+    <style>
+      html {
+        background-image: url('{{ url_for("static", filename = "img/bwimg.jpg") }}');
+      }
+    </style>
+
 </head>
 <body>
     <div class="navbar is-danger">
-        <div class="navbar-item"><a href=" {{  url_for('default')}} ">Home</a></div>
+      <div class="navbar-brand">
+        <a href=" {{  url_for('default')}} " class="navbar-item">
+          <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="logo" height="120" width="40" >
+        </a>
+      </div>
+        
         {% if guest %}
         <div class="navbar-item navbar-end" title=" Click to logout"><a href=" {{ url_for('app_api.logout') }} "> {{ guest }} </a> </div>
         {% else %}
@@ -26,9 +38,11 @@
       </div>
 
 
-    {% block data %}
-    {% endblock %}
-
+    <div class="container">
+      {% block data %}
+      {% endblock %}
+    </div>
+<br><br><br>
     <footer class="footer has-text-white" style="background-color: black">
         <div class="content has-text-centered">
           <p>
